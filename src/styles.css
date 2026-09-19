@@ -5,6 +5,7 @@
   --primary: #155e75;
   --accent: #22c55e;
   --warn: #f97316;
+  --danger: #e11d48;
   --border: #dbe3ef;
 }
 
@@ -18,7 +19,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -29,6 +31,11 @@ button {
   min-height: 38px;
   padding: 0 12px;
   cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .app-shell {
@@ -98,6 +105,7 @@ h1 {
 
 .stack-card span,
 .metric-card span,
+.metric-card small,
 label span {
   color: #64748b;
   font-size: 13px;
@@ -124,8 +132,14 @@ label span {
 
 .metric-card strong {
   display: block;
-  margin-top: 12px;
-  font-size: 34px;
+  margin-top: 10px;
+  font-size: 32px;
+}
+
+.metric-card small {
+  display: block;
+  margin-top: 6px;
+  line-height: 1.5;
 }
 
 .metric-card i {
@@ -146,7 +160,7 @@ label span {
 }
 
 .status-danger {
-  background: #e11d48;
+  background: var(--danger);
 }
 
 .workspace {
@@ -158,6 +172,11 @@ label span {
 
 .panel {
   padding: 22px;
+  margin-bottom: 20px;
+}
+
+.workspace .panel {
+  margin-bottom: 0;
 }
 
 .narrow h2 {
@@ -165,24 +184,65 @@ label span {
   margin-bottom: 12px;
 }
 
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
+.narrow h2:not(:first-child) {
+  margin-top: 24px;
 }
 
-.chips span,
-.chips button {
-  min-height: 34px;
-  border-radius: 999px;
-  padding: 7px 12px;
-  border: 1px solid color-mix(in srgb, var(--primary) 28%, #dbe3ef);
-  background: color-mix(in srgb, var(--primary) 8%, #ffffff);
+.action-stack {
+  display: grid;
+  gap: 12px;
 }
 
-.chips.muted button {
+label {
+  display: grid;
+  gap: 8px;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0 12px;
+  color: #172033;
   background: #ffffff;
+}
+
+.primary-action {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+.danger-action {
+  margin-top: 24px;
+  width: 100%;
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 45%, #ffffff);
+  background: color-mix(in srgb, var(--danger) 6%, #ffffff);
+}
+
+.hint {
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 12px 0 0;
+}
+
+.blocker {
+  margin: 0;
+  color: var(--danger);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.rule-list {
+  margin: 0;
+  padding-left: 18px;
+  color: #526070;
+  font-size: 13px;
+  line-height: 1.8;
 }
 
 .section-heading {
@@ -197,38 +257,249 @@ label span {
   margin-bottom: 0;
 }
 
-.primary-action {
-  background: var(--primary);
-  color: #ffffff;
-  border-color: var(--primary);
+/* 听力图 */
+.audiogram svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #fbfdff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
 }
 
-.field-grid {
+.audiogram .grid {
+  stroke: #e8eef6;
+  stroke-width: 1;
+}
+
+.audiogram .grid-strong {
+  stroke: #d3ddea;
+  stroke-width: 1;
+}
+
+.audiogram .axis-label {
+  font-size: 10px;
+  fill: #64748b;
+}
+
+.audiogram .axis-label.freq {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #334155;
+}
+
+.audiogram .symbol {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.audiogram-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 10px 2px 0;
+  color: #526070;
+  font-size: 13px;
+}
+
+.audiogram-legend i {
+  font-style: normal;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.audiogram-legend .legend-unit {
+  margin-left: auto;
+  color: #94a3b8;
+}
+
+/* 双耳录入表 */
+.ear-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
+  margin-top: 16px;
 }
 
-label {
+.ear-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  background: #fbfdff;
+}
+
+.ear-card h3 {
+  margin-bottom: 12px;
+}
+
+.ear-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.ear-table th {
+  text-align: left;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ear-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #edf2f8;
+  vertical-align: middle;
+}
+
+.ear-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ear-table input,
+.ear-table select {
+  min-height: 34px;
+  padding: 0 8px;
+  font-size: 13px;
+}
+
+.ear-table td.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.freq-label {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.badge-error {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, #ffffff);
+}
+
+.badge-review {
+  color: #c2610c;
+  background: color-mix(in srgb, var(--warn) 14%, #ffffff);
+}
+
+.row-error td {
+  background: color-mix(in srgb, var(--danger) 5%, #ffffff);
+}
+
+.row-review td {
+  background: color-mix(in srgb, var(--warn) 7%, #ffffff);
+}
+
+/* 核验结果 */
+.check-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.check-grid h3,
+.resolved-list h3 {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.issue-list,
+.review-list,
+.resolved-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
   gap: 8px;
 }
 
-input {
-  width: 100%;
-  min-height: 42px;
-  border: 1px solid var(--border);
+.issue-list li {
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, #ffffff);
+  background: color-mix(in srgb, var(--danger) 5%, #ffffff);
   border-radius: 6px;
-  padding: 0 12px;
-  color: #172033;
+  padding: 10px 12px;
+  line-height: 1.6;
+  font-size: 14px;
 }
 
-.record-list {
+.issue-list strong,
+.review-list strong,
+.resolved-list strong {
+  color: var(--primary);
+  margin-right: 6px;
+}
+
+.review-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid color-mix(in srgb, var(--warn) 35%, #ffffff);
+  background: color-mix(in srgb, var(--warn) 6%, #ffffff);
+  border-radius: 6px;
+  padding: 10px 12px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.review-list button {
+  flex-shrink: 0;
+  min-height: 32px;
+  color: #c2610c;
+  border-color: color-mix(in srgb, var(--warn) 45%, #ffffff);
+}
+
+.ok-banner {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 6px;
+  color: #15803d;
+  background: color-mix(in srgb, var(--accent) 12%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, #ffffff);
+}
+
+.resolved-list {
+  margin-top: 18px;
+}
+
+.resolved-list li {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #f6f9fc;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #526070;
+}
+
+.resolved-at {
+  margin-left: 8px;
+  color: #15803d;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* 版本链 */
+.version-chain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
   gap: 12px;
 }
 
-.record-card {
+.version-chain li {
   display: grid;
   grid-template-columns: 56px 1fr;
   gap: 16px;
@@ -239,7 +510,12 @@ input {
   background: #fbfdff;
 }
 
-.record-index {
+.version-chain li.current {
+  border-color: color-mix(in srgb, var(--primary) 45%, #ffffff);
+  background: color-mix(in srgb, var(--primary) 5%, #ffffff);
+}
+
+.version-badge {
   display: grid;
   place-items: center;
   width: 46px;
@@ -250,24 +526,35 @@ input {
   font-weight: 800;
 }
 
-.record-card h3 {
+.version-chain h3 {
   margin-bottom: 6px;
+  font-size: 16px;
 }
 
-.record-card p {
+.version-chain p {
   margin-bottom: 0;
   color: #526070;
   line-height: 1.6;
+  font-size: 14px;
 }
 
-@media (max-width: 860px) {
+.tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #ffffff;
+  background: var(--primary);
+  vertical-align: middle;
+}
+
+@media (max-width: 960px) {
   .hero,
   .workspace,
-  .metrics-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .field-grid {
+  .metrics-grid,
+  .ear-grid,
+  .check-grid {
     grid-template-columns: 1fr;
   }
 }
