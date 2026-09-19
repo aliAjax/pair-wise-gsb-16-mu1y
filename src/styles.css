@@ -5,6 +5,7 @@
   --primary: #155e75;
   --accent: #22c55e;
   --warn: #f97316;
+  --danger: #e11d48;
   --border: #dbe3ef;
 }
 
@@ -18,7 +19,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -31,8 +33,13 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .app-shell {
-  width: min(1180px, calc(100% - 32px));
+  width: min(1240px, calc(100% - 32px));
   margin: 0 auto;
   padding: 32px 0 48px;
 }
@@ -83,9 +90,9 @@ h1 {
 
 .subtitle {
   color: #526070;
-  font-size: 17px;
-  line-height: 1.7;
-  max-width: 720px;
+  font-size: 16px;
+  line-height: 1.8;
+  max-width: 760px;
   margin-bottom: 0;
 }
 
@@ -93,7 +100,7 @@ h1 {
   padding: 24px;
   display: grid;
   align-content: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .stack-card span,
@@ -118,7 +125,7 @@ label span {
 .metric-card {
   position: relative;
   padding: 20px;
-  min-height: 118px;
+  min-height: 108px;
   overflow: hidden;
 }
 
@@ -126,6 +133,12 @@ label span {
   display: block;
   margin-top: 12px;
   font-size: 34px;
+}
+
+.metric-card strong.metric-text {
+  font-size: 20px;
+  line-height: 1.4;
+  padding-top: 8px;
 }
 
 .metric-card i {
@@ -146,43 +159,24 @@ label span {
 }
 
 .status-danger {
-  background: #e11d48;
+  background: var(--danger);
 }
 
 .workspace {
   display: grid;
-  grid-template-columns: 290px 1fr;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
   gap: 20px;
   margin-bottom: 20px;
+  align-items: start;
 }
 
 .panel {
   padding: 22px;
+  margin-bottom: 20px;
 }
 
-.narrow h2 {
-  font-size: 17px;
-  margin-bottom: 12px;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.chips span,
-.chips button {
-  min-height: 34px;
-  border-radius: 999px;
-  padding: 7px 12px;
-  border: 1px solid color-mix(in srgb, var(--primary) 28%, #dbe3ef);
-  background: color-mix(in srgb, var(--primary) 8%, #ffffff);
-}
-
-.chips.muted button {
-  background: #ffffff;
+.workspace .panel {
+  margin-bottom: 0;
 }
 
 .section-heading {
@@ -191,10 +185,15 @@ label span {
   align-items: start;
   gap: 16px;
   margin-bottom: 18px;
+  flex-wrap: wrap;
 }
 
 .section-heading h2 {
   margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .primary-action {
@@ -203,71 +202,317 @@ label span {
   border-color: var(--primary);
 }
 
-.field-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+.danger-ghost {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 40%, #ffffff);
+  background: #fff5f6;
 }
 
-label {
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hint {
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ok-line {
+  color: #15803d;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.warn-line {
+  color: #b45309;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* 徽章 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.badge-frozen {
+  color: #ffffff;
+  background: var(--primary);
+}
+
+.badge-draft {
+  color: #7c2d12;
+  background: #ffedd5;
+}
+
+.badge-warn {
+  color: #7c2d12;
+  background: #ffedd5;
+}
+
+.badge-ok {
+  color: #14532d;
+  background: #dcfce7;
+}
+
+/* 耳数据表 */
+.ears-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ear-block {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fbfdff;
+}
+
+.ear-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.ear-head h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.ear-left .ear-head h3,
+.ear-title.ear-left {
+  color: #2563eb;
+}
+
+.ear-right .ear-head h3,
+.ear-title.ear-right {
+  color: #dc2626;
+}
+
+.ear-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.ear-table th,
+.ear-table td {
+  padding: 6px 6px;
+  text-align: left;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.ear-table thead th {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ear-table input,
+.ear-table select {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0 8px;
+  color: #172033;
+  background: #ffffff;
+}
+
+.ear-table tr.row-blocked input,
+.ear-table tr.row-blocked select {
+  border-color: color-mix(in srgb, var(--danger) 55%, #ffffff);
+  background: #fff1f2;
+}
+
+.ear-table tr.row-review input,
+.ear-table tr.row-review select {
+  border-color: color-mix(in srgb, var(--warn) 55%, #ffffff);
+  background: #fffbeb;
+}
+
+/* 核验面板 */
+.issue-list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
   display: grid;
   gap: 8px;
 }
 
-input {
+.issue-item {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  border-left: 4px solid var(--danger);
+  background: #fff1f2;
+}
+
+.issue-item span {
+  color: #526070;
+}
+
+.review-box {
+  border: 1px solid color-mix(in srgb, var(--warn) 45%, #ffffff);
+  background: #fffbeb;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.review-box.done {
+  border-color: color-mix(in srgb, var(--accent) 45%, #ffffff);
+  background: #f0fdf4;
+}
+
+.review-box h3 {
+  margin: 0;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-need-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: #526070;
+  line-height: 1.7;
+}
+
+.review-box input,
+.reason-field input {
   width: 100%;
-  min-height: 42px;
+  min-height: 38px;
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 0 12px;
-  color: #172033;
+  padding: 0 10px;
+  background: #ffffff;
 }
 
-.record-list {
+.adopt-bar {
+  border-top: 1px dashed var(--border);
+  padding-top: 14px;
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
-.record-card {
+.reason-field {
   display: grid;
-  grid-template-columns: 56px 1fr;
+  gap: 6px;
+}
+
+.adopt-btn {
+  min-height: 44px;
+  font-weight: 700;
+}
+
+/* 听力图 */
+.audiogram-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
-  align-items: center;
+}
+
+.audiogram-card {
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 16px;
+  padding: 14px;
   background: #fbfdff;
 }
 
-.record-index {
+.audiogram-card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.audiogram-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.axis-label {
+  font-size: 10px;
+  fill: #64748b;
+}
+
+/* 版本链 */
+.version-chain {
   display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.version-card {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 14px;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  color: #ffffff;
-  background: var(--primary);
-  font-weight: 800;
-}
-
-.record-card h3 {
-  margin-bottom: 6px;
-}
-
-.record-card p {
-  margin-bottom: 0;
+  background: #fbfdff;
+  font-size: 13px;
   color: #526070;
-  line-height: 1.6;
+  min-height: 0;
 }
 
-@media (max-width: 860px) {
+.version-card strong {
+  font-size: 16px;
+  color: #172033;
+}
+
+.version-card.current {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 25%, #ffffff);
+}
+
+.version-card.draft-card {
+  border-style: dashed;
+  background: #fffaf0;
+}
+
+button.version-card:hover {
+  border-color: var(--primary);
+}
+
+.snapshot {
+  margin-top: 18px;
+  border-top: 1px dashed var(--border);
+  padding-top: 18px;
+}
+
+.snapshot-reviews {
+  margin: 14px 0 0;
+  padding-left: 18px;
+  color: #526070;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+@media (max-width: 960px) {
   .hero,
   .workspace,
-  .metrics-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .field-grid {
+  .metrics-grid,
+  .ears-grid,
+  .audiogram-grid {
     grid-template-columns: 1fr;
   }
 }
